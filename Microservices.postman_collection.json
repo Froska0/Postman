@@ -13,7 +13,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"user_id\":5}",
+					"raw": "{\"user_id\":9615}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -44,7 +44,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"type\": \"padawan\", \r\n\"spec\": \"QA\", \r\n\"ex\": \"1\", \r\n\"current_user\": {\r\n    \"uid\": 5, \r\n    \"uip:\": 0.0\r\n    }\r\n}",
+					"raw": "{\"type\": \"padawan\", \r\n\"spec\": \"QA\", \r\n\"ex\": \"1\", \r\n\"current_user\": {\r\n    \"uid\": 9615, \r\n    \"uip:\": 0.0\r\n    }\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -150,7 +150,7 @@
 			"response": []
 		},
 		{
-			"name": "HW_1_Task_3_Request_1",
+			"name": "HW_1_Task_3_Request_1/jobs_count",
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -171,7 +171,7 @@
 			"response": []
 		},
 		{
-			"name": "HW_1_Task_3_Request_2",
+			"name": "HW_1_Task_3_Request_2/get_jobs_count",
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -192,7 +192,7 @@
 			"response": []
 		},
 		{
-			"name": "HW_1_Task_3_Request_3",
+			"name": "HW_1_Task_3_Request_3/all_jobs",
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -213,7 +213,7 @@
 			"response": []
 		},
 		{
-			"name": "HW_1_Task_3_Request_4",
+			"name": "HW_1_Task_3_Request_4/get_all_jobs",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true,
 				"disabledSystemHeaders": {}
@@ -247,13 +247,13 @@
 			"response": []
 		},
 		{
-			"name": "HW_1_Task_3_Request_5",
+			"name": "HW_1_Task_3_Request_5/add_job",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"firm_title\": \"Name_1\",\r\n    \"position_title\": \"Position_1\",\r\n    \"skills\": [\"skill_1\", \"skill_2\", \"skill_3\"],\r\n    \"description\": \"description_something\",\r\n    \"Job Posting\": \"Dec 05 2022\",\r\n    \"Employee Status\": \"Full-time\"\r\n}",
+					"raw": "{\r\n    \"firm_title\": \"My firm\",\r\n    \"position_title\": \"Junior QA Manual\",\r\n    \"skills\": [\"API testing\", \"SQL\", \"Documentation\"],\r\n    \"description\": \"CheckLists, Bug Reports etc\",\r\n    \"Job Posting\": \"Dec 25 2022\",\r\n    \"Employee Status\": \"Full-time\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -277,13 +277,13 @@
 			"response": []
 		},
 		{
-			"name": "HW_1_Task_3_Request_6",
+			"name": "HW_1_Task_3_Request_6/add_job_item",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"firm_title\": \"Name_1\",\r\n    \"position_title\": \"Position_1\",\r\n    \"skills\": [\"skill_1\", \"skill_2\", \"skill_3\"],\r\n    \"description\": \"description_something\",\r\n    \"Job Posting\": \"Dec 05 2022\",\r\n    \"Employee Status\": \"Full-time\"\r\n}\r\n",
+					"raw": "{\r\n    \"firm_title\": \"My firm\",\r\n    \"position_title\": \"Junior QA Manual\",\r\n    \"skills\": [\"API testing\", \"SQL\", \"Documentation\"],\r\n    \"description\": \"CheckLists, Bug Reports etc\",\r\n    \"Job Posting\": \"Dec 25 2022\",\r\n    \"Employee Status\": \"Full-time\"\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"

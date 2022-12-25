@@ -19,12 +19,13 @@ WS_1 получает ответ от WS_2 и отправляет json {“jobs
 —-----------------------------
 Endpoint /all_jobs
 162.55.220.72:5031/all_jobs
-POST. (get?)
+GET
 WS_1 получает запрос от клиента. 
 Никаких параметров не нужно
 WS_1 отправляет запрос на WS_2
 
-23.88.52.139:5032/all_jobs
+23.88.52.139:5032/get_all_jobs
+GET
 
 WS_2 получает запрос от WS_1
 WS_2 парсит jobs.json, в которой 7 вакансий и считает количество вакансий. По умолчанию в jobs.json 7 вакансий.
@@ -35,11 +36,16 @@ WS_1 получает ответ от WS_2 и отправляет jobs.json к�
 Endpoint /add_job
 162.55.220.72:5031/add_job
 POST. 
-WS_1 получает запрос от клиента. 
-Никаких параметров не нужно
+WS_1 получает запрос от клиента в теле которого должна быть json-ка. 
+ {"firm_title": “firm_title”,
+"position_title": “position_title”,
+"skills": [“skill_1”, “skill_2”, “skill_3”]
+ "description": description,
+"Job Posting": job_posting,
+"Employee Status": employee_status}
 WS_1 отправляет запрос на WS_2
 23.88.52.139:5032/add_job_item
-В теле запроса должен быть json
+В теле запроса должен быть json полученный от клиента.
  {"firm_title": “firm_title”,
 "position_title": “position_title”,
 "skills": [“skill_1”, “skill_2”, “skill_3”]
@@ -110,3 +116,184 @@ jobs.json:
           "Employee Status": " Full-time"
          }
 }
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+РЕШЕНИЕ:
+(см. файл "Microservices.postman_collection.json" Task_3, запросы 1 - 6) 
+
+1. Отправляем методом GET запрос на 162.55.220.72:5031/jobs_count
+Никаких параметров не нужно
+
+Получаем ответ: 
+
+{
+    "jobs_count": 264
+}
+
+2. Сравниваем с ожидаемым результатом, видим, что всё отлично.
+Отправляем методом GET запрос на 23.88.52.139:5032/get_jobs_count
+Никаких параметров не нужно
+
+Получаем ответ: 
+
+{
+    "jobs_count": 264
+}
+
+3. Сравниваем с ожидаемым результатом, видим, что всё отлично.
+Значит, подсчёт количества вакансий на WS_1 и WS_2 отрабатывает корректно.
+
+4. Отправляем методом GET запрос на 162.55.220.72:5031/all_jobs
+Никаких параметров не нужно
+
+Получаем ответ: 
+
+{
+    "1": {
+        "Employee Status": "Full-time",
+        "Job Posting": "Aug 02 2022",
+        "description": "Experience with Functional Testing, including Regression Testing, Integration Testing, and API Testing. Experience with creating and executing test scripts. Experience testing developments against wireframes and style guide. Experience with systems, integration, and user acceptance testing. Experience in working with offshore /onsite Model",
+        "firm_title": "Cognizant Technology Solutions",
+        "position_title": "QA Functional Tester",
+        "skills": [
+            "postman",
+            "js",
+            "client_server",
+            "api_testing"
+        ]
+    },
+...
+...
+...
+    "264": {
+        "Employee Status": "full-time",
+        "Job Posting": " ",
+        "description": "Good Job",
+        "firm_title": "Acosoft",
+        "position_title": "QA Engineer",
+        "skills": [
+            "Java",
+            "Janjins",
+            "QA Automation"
+        ]
+    }
+}
+
+5. Сравниваем с ожидаемым результатом, видим, что для первых 7 вакансий, которые были созданы изначально, AR=ER
+для вновь созданных вакансий у ключа "Job Posting" не указано значение.
+Отправляем методом GET запрос на 23.88.52.139:5032/get_all_jobs
+Никаких параметров не нужно
+
+{
+    "1": {
+        "Employee Status": "Full-time",
+        "Job Posting": "Aug 02 2022",
+        "description": "Experience with Functional Testing, including Regression Testing, Integration Testing, and API Testing. Experience with creating and executing test scripts. Experience testing developments against wireframes and style guide. Experience with systems, integration, and user acceptance testing. Experience in working with offshore /onsite Model",
+        "firm_title": "Cognizant Technology Solutions",
+        "position_title": "QA Functional Tester",
+        "skills": [
+            "postman",
+            "js",
+            "client_server",
+            "api_testing"
+        ]
+    },
+...
+...
+...
+    "264": {
+        "Employee Status": "full-time",
+        "Job Posting": " ",
+        "description": "Good Job",
+        "firm_title": "Acosoft",
+        "position_title": "QA Engineer",
+        "skills": [
+            "Java",
+            "Janjins",
+            "QA Automation"
+        ]
+    }
+}
+
+6. Сравниваем с ожидаемым результатом, видим, что для первых 7 вакансий, которые были созданы изначально, AR=ER
+для вновь созданных вакансий у ключа "Job Posting" не указано значение. 
+Значит, или проблема в WS_2, или у ключа "Job Posting" не было указано значение при создании вакансии.
+Создадим новую вакансию, в которой обязательно укажем "Job Posting".
+Отправляем методом POST запрос на 162.55.220.72:5031/add_job
+В body указываем json:
+{
+    "firm_title": "My firm",
+    "position_title": "Junior QA Manual",
+    "skills": ["API testing", "SQL", "Documentation"],
+    "description": "CheckLists, Bug Reports etc",
+    "Job Posting": "Dec 25 2022",
+    "Employee Status": "Full-time"
+}
+
+Получаем ответ:
+
+{
+    "check_message": "call /all_jobs endpoint for checking.",
+    "result_essage": "Job added. Job id is 265"
+}
+
+7. Сравниваем с ожидаемым результатом, видим, что всё отлично.
+Значит, добавление работы происходит.
+Проверим, как отрабатывает добавление работы через WS_2:
+Отправляем методом POST запрос на 23.88.52.139:5032/add_job_item
+В body указываем json:
+{
+    "firm_title": "My firm",
+    "position_title": "Junior QA Manual",
+    "skills": ["API testing", "SQL", "Documentation"],
+    "description": "CheckLists, Bug Reports etc",
+    "Job Posting": "Dec 25 2022",
+    "Employee Status": "Full-time"
+}
+
+Получаем ответ:
+
+{
+    "check_message": "call /all_jobs endpoint for checking.",
+    "result_essage": "Job added. Job id is 266"
+}
+
+8. Сравниваем с ожидаемым результатом, видим, что всё отлично.
+Значит, добавление работы происходит.
+Проверяем, указано ли значение у ключа "Job Posting" у этой вакансии.
+Отправляем ещё раз запросы из пункта 4 и 5.
+
+Получаем одинаковые ответы:
+
+...
+...
+    "265": {
+        "Employee Status": "Full-time",
+        "Job Posting": " ",
+        "description": "CheckLists, Bug Reports etc",
+        "firm_title": "My firm",
+        "position_title": "Junior QA Manual",
+        "skills": [
+            "API testing",
+            "SQL",
+            "Documentation"
+        ]
+    },
+    "266": {
+        "Employee Status": "Full-time",
+        "Job Posting": " ",
+        "description": "CheckLists, Bug Reports etc",
+        "firm_title": "My firm",
+        "position_title": "Junior QA Manual",
+        "skills": [
+            "API testing",
+            "SQL",
+            "Documentation"
+        ]
+    },
+...
+...
+
+9. Как видим, у ключа "Job Posting" не указано значение.
+Значит, проблема в WS_2 (endpoint 23.88.52.139:5032/get_all_jobs).
